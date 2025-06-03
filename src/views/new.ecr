@@ -10,6 +10,10 @@
       // Here is the crypto library to retrieve and reveal secrets. It doesn't touch the DOM.
 
       async function encryptAndStore() {
+        if (plaintext().length > <%= MAX_CIPHERTEXT_LENGTH - 1 %>) {
+          alert(`Maximum <%= MAX_CIPHERTEXT_LENGTH - 1 %> characters allowed. Currently you have ${plaintext().length} characters.`);
+          return;
+        }
         const { key, ciphertext } = await encryptLocally(plaintext());
         const { url } = await storeRemotely(ciphertext, expiresInSeconds());
         showSharable(`${url}:${to_base64(key)}`);
